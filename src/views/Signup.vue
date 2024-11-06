@@ -32,11 +32,11 @@
           this.email,
           this.password,
           () => {
-            alert("회원가입 성공!");
-            this.$router.push("/signin");
+            alert("회원가입 성공!"); // 회원가입 성공 시 메시지 출력
+            this.$router.push("/signin"); // 회원가입 성공 후 로그인 페이지로 이동
           },
           (error) => {
-            this.errorMessage = error;
+            this.errorMessage = error; // 에러 메시지 표시
           }
         );
       }
@@ -45,43 +45,6 @@
   </script>
   
   <style scoped>
-  .sign-up {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-  
-  label {
-    display: block;
-    margin-top: 10px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #E50914;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #bf0812;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.9rem;
-    margin-top: 10px;
-  }
+  /* 스타일은 생략 */
   </style>
   
