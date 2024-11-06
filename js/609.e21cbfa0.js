@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunknetflix_clone"]=self["webpackChunknetflix_clone"]||[]).push([[609],{5609:function(n,e,t){t.r(e),t.d(e,{default:function(){return i}});var u=t(6768);const a={class:"about"};function c(n,e){return(0,u.uX)(),(0,u.CE)("div",a,e[0]||(e[0]=[(0,u.Lk)("h1",null,"This is an about page",-1)]))}var r=t(1241);const s={},l=(0,r.A)(s,[["render",c]]);var i=l}}]);
-//# sourceMappingURL=609.e21cbfa0.js.map
