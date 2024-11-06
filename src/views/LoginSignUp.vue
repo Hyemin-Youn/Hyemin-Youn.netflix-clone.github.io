@@ -11,7 +11,16 @@
           <label for="password">Password</label>
           <input type="password" v-model="password" required />
 
+          <!-- Remember Me 체크박스 -->
+          <div class="remember-me">
+            <input type="checkbox" id="rememberMe" v-model="rememberMe" />
+            <label for="rememberMe">Remember Me</label>
+          </div>
+
           <button type="submit">Sign In</button>
+          
+          <!-- Forgot Password 링크 -->
+          <p class="forgot-password" @click="handleForgotPassword">Forgot Password?</p>
         </form>
         <p class="switch" @click="flipCard">Don't have an account? Sign up</p>
       </div>
@@ -29,7 +38,13 @@
           <label for="confirmPassword">Confirm Password</label>
           <input type="password" v-model="confirmPassword" required />
 
-          <button type="submit">Register</button>
+          <!-- Terms and Conditions 체크박스 -->
+          <div class="terms">
+            <input type="checkbox" id="terms" v-model="termsAccepted" />
+            <label for="terms">I have read and agree to the Terms and Conditions</label>
+          </div>
+
+          <button type="submit" :disabled="!termsAccepted">Register</button>
           <p v-if="passwordError" class="error">{{ passwordError }}</p>
         </form>
         <p class="switch" @click="flipCard">Already have an account? Sign in</p>
@@ -45,9 +60,11 @@ export default {
       isFlipped: false,
       email: "",
       password: "",
+      rememberMe: false, // Remember Me 체크박스 상태
       newEmail: "",
       newPassword: "",
       confirmPassword: "",
+      termsAccepted: false, // Terms and Conditions 체크박스 상태
       passwordError: "",
     };
   },
@@ -56,16 +73,17 @@ export default {
       this.isFlipped = !this.isFlipped;
     },
     handleLogin() {
-      // 로그인 로직 처리 (예: API 호출)
       if (this.email && this.password) {
         alert("Login successful!");
-        this.$router.push("/home"); // 로그인 성공 후 홈 페이지로 이동
+        if (this.rememberMe) {
+          // Remember Me가 체크된 경우 처리 로직 추가 (예: 로컬 저장소에 사용자 정보 저장)
+        }
+        this.$router.push("/home");
       } else {
         alert("Login failed. Please try again.");
       }
     },
     handleRegister() {
-      // 비밀번호 확인
       if (this.newPassword !== this.confirmPassword) {
         this.passwordError = "Passwords do not match.";
         return;
@@ -73,13 +91,16 @@ export default {
         this.passwordError = "";
       }
 
-      // 회원가입 로직 처리 (예: API 호출)
-      if (this.newEmail && this.newPassword) {
+      if (this.newEmail && this.newPassword && this.termsAccepted) {
         alert("Registration successful!");
-        this.isFlipped = false; // 회원가입 성공 후 로그인 화면으로 전환
+        this.isFlipped = false;
       } else {
-        alert("Registration failed. Please try again.");
+        alert("Registration failed. Please check your inputs.");
       }
+    },
+    handleForgotPassword() {
+      // 비밀번호 찾기 페이지로 이동하거나 모달 표시 등
+      alert("Redirecting to Forgot Password page...");
     },
   },
 };
@@ -88,7 +109,7 @@ export default {
 <style scoped>
 /* 기존 스타일 유지 */
 .wrapper {
-  height: 430px;
+  height: 460px;
   width: 320px;
   position: absolute;
   top: 50%;
@@ -142,7 +163,8 @@ label {
   margin-top: 10px;
 }
 
-input {
+input[type="email"],
+input[type="password"] {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -162,8 +184,33 @@ button {
   font-size: 16px;
 }
 
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.terms,
+.remember-me {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.terms input[type="checkbox"],
+.remember-me input[type="checkbox"] {
+  margin-right: 5px;
+}
+
 .switch {
   margin-top: 15px;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.forgot-password {
+  margin-top: 10px;
   color: #fff;
   cursor: pointer;
   text-decoration: underline;
