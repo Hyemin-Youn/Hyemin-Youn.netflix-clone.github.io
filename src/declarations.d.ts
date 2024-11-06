@@ -1,5 +1,4 @@
 declare module "@/services/appwrite" {
-    const AppwriteService: any;
-    export = AppwriteService;
-  }
-  
+  const AppwriteService: any;
+  export default AppwriteService;
+}
