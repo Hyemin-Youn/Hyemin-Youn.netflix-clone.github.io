@@ -13,3 +13,15 @@ const users = [
     }
   }
   
+  export function tryRegister(email, password, success, fail) {
+    const userExists = users.some((user) => user.email === email);
+    if (userExists) {
+      fail("이미 존재하는 이메일입니다.");
+    } else {
+      const newUser = { id: users.length + 1, email, password };
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users)); // 로컬 스토리지에 사용자 데이터 저장
+      success(newUser);
+    }
+  }
+  
