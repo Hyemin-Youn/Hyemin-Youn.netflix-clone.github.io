@@ -31,12 +31,12 @@
         tryRegister(
           this.email,
           this.password,
-          (user) => {
-            alert("회원가입 성공!"); // 회원가입 성공 시 메시지 출력
-            this.$router.push("/signin"); // 회원가입 성공 후 로그인 페이지로 이동
+          () => {
+            alert("회원가입 성공!");
+            this.$router.push("/signin");
           },
           (error) => {
-            this.errorMessage = error; // 에러 메시지 표시
+            this.errorMessage = error;
           }
         );
       }

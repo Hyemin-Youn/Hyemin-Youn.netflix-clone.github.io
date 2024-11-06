@@ -11,6 +11,9 @@
         <button type="submit">로그인</button>
       </form>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      <p class="signup-link">
+        Don't have an account? <router-link to="/signup">Sign up</router-link>
+      </p>
     </div>
   </template>
   
@@ -31,12 +34,12 @@
         tryLogin(
           this.email,
           this.password,
-          (user) => {
-            alert("로그인 성공!"); // 로그인 성공 시 메시지 출력
-            this.$router.push("/"); // 로그인 성공 후 홈으로 이동
-          },
           () => {
-            this.errorMessage = "로그인 실패: 이메일 또는 비밀번호를 확인하세요.";
+            alert("로그인 성공!");
+            this.$router.push("/home"); // 로그인 성공 후 홈으로 이동
+          },
+          (error) => {
+            this.errorMessage = error;
           }
         );
       }
@@ -68,7 +71,7 @@
   button {
     width: 100%;
     padding: 10px;
-    background-color: #E50914;
+    background-color: #e50914;
     color: white;
     border: none;
     cursor: pointer;
@@ -76,6 +79,21 @@
   
   button:hover {
     background-color: #bf0812;
+  }
+  
+  .signup-link {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .signup-link a {
+    color: #e50914;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
   }
   
   .error {

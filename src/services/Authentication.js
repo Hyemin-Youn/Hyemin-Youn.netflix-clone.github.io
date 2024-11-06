@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const users = [
     { id: 1, email: "user@example.com", password: "password123" },
     // 더 많은 유저를 추가할 수 있습니다.
