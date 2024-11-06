@@ -26,7 +26,11 @@
           <label for="newPassword">Password</label>
           <input type="password" v-model="newPassword" required />
 
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" v-model="confirmPassword" required />
+
           <button type="submit">Register</button>
+          <p v-if="passwordError" class="error">{{ passwordError }}</p>
         </form>
         <p class="switch" @click="flipCard">Already have an account? Sign in</p>
       </div>
@@ -43,6 +47,8 @@ export default {
       password: "",
       newEmail: "",
       newPassword: "",
+      confirmPassword: "",
+      passwordError: "",
     };
   },
   methods: {
@@ -59,6 +65,14 @@ export default {
       }
     },
     handleRegister() {
+      // 비밀번호 확인
+      if (this.newPassword !== this.confirmPassword) {
+        this.passwordError = "Passwords do not match.";
+        return;
+      } else {
+        this.passwordError = "";
+      }
+
       // 회원가입 로직 처리 (예: API 호출)
       if (this.newEmail && this.newPassword) {
         alert("Registration successful!");
@@ -72,6 +86,7 @@ export default {
 </script>
 
 <style scoped>
+/* 기존 스타일 유지 */
 .wrapper {
   height: 430px;
   width: 320px;
