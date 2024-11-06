@@ -10,6 +10,7 @@
     "predeploy": "npm run build"
   },
   "dependencies": {
+    "appwrite": "^16.0.2",
     "core-js": "^3.8.3",
     "gh-pages": "^6.2.0",
     "register-service-worker": "^1.7.2",
