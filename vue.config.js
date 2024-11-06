@@ -3,9 +3,10 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: (config) => {
+    // TypeScript 관련 플러그인을 제거합니다.
     config.plugins = config.plugins.filter(
       (plugin) => plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin'
     );
   },
-  publicPath: '/netflix-clone/', // 이 부분을 프로젝트 이름으로 설정
+  publicPath: process.env.NODE_ENV === 'production' ? '/hyemin-youn.github.io/' : '/',
 });
