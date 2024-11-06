@@ -1,29 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
-import About from '../views/About.vue';
-import Login from '../views/Login.vue'; // Login 컴포넌트 임포트
+import Login from '../views/Login.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About
-  },
-  {
-    path: '/login', // 로그인 페이지 경로
     name: 'Login',
-    component: Login
-  }
+    component: Login,
+  },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory('/Hyemin-Youn.netflix-clone/'), // 여기에 GitHub Pages 레포지토리 이름 추가
+  routes,
 });
 
 export default router;

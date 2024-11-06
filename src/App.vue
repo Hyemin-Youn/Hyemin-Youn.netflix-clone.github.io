@@ -1,16 +1,15 @@
-<!-- App.vue -->
 <template>
   <div id="app">
-    <AuthForm /> <!-- AuthForm을 메인 컴포넌트로 추가 -->
+    <LoginForm />
   </div>
 </template>
 
 <script>
-import AuthForm from './components/AuthForm.vue';
+import LoginForm from './components/LoginForm.vue';
 
 export default {
   components: {
-    AuthForm,
+    LoginForm,
   },
 };
 </script>
