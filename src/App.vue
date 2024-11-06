@@ -1,18 +1,10 @@
 <template>
-  <div id="app">
-    <LoginForm />
-  </div>
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view/>
 </template>
-
-<script>
-import LoginForm from './components/LoginForm.vue';
-
-export default {
-  components: {
-    LoginForm,
-  },
-};
-</script>
 
 <style lang="stylus">
 #app
