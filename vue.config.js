@@ -8,5 +8,5 @@ module.exports = defineConfig({
       (plugin) => plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin'
     );
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  publicPath: '/',
 });
