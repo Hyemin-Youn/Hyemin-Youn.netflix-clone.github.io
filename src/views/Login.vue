@@ -40,6 +40,7 @@
   import AppwriteService from '@/services/appwrite';
   
   export default {
+    name: 'LoginPage',
     setup() {
       const email = ref('');
       const password = ref('');
