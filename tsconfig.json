@@ -25,7 +25,9 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "allowJs": true,        // JavaScript 파일을 허용
+    "noEmit": true          // 파일을 출력하지 않도록 설정
   },
   "include": [
     "src/**/*.ts",
@@ -35,7 +37,6 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    "dist"
+    "node_modules"
   ]
 }
