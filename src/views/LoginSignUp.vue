@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class="card" :class="{ flipped: isFlipped }">
+    <div class="card-container">
       <!-- 로그인 화면 -->
-      <div class="content front">
+      <div class="card" :class="{ animated: isAnimating, hidden: isFlipped }">
         <h2>Login</h2>
         <form @submit.prevent="handleLogin">
           <label for="email">Email</label>
@@ -11,22 +11,19 @@
           <label for="password">Password</label>
           <input type="password" v-model="password" required />
 
-          <!-- Remember Me 체크박스 -->
           <div class="remember-me">
             <input type="checkbox" id="rememberMe" v-model="rememberMe" />
             <label for="rememberMe">Remember Me</label>
           </div>
 
           <button type="submit">Sign In</button>
-          
-          <!-- Forgot Password 링크 -->
           <p class="forgot-password" @click="handleForgotPassword">Forgot Password?</p>
         </form>
-        <p class="switch" @click="flipCard">Don't have an account? Sign up</p>
+        <p class="switch" @click="startSwapAnimation">Don't have an account? Sign up</p>
       </div>
 
       <!-- 회원가입 화면 -->
-      <div class="content back">
+      <div class="card" :class="{ animated: isAnimating, hidden: !isFlipped }">
         <h2>Sign Up</h2>
         <form @submit.prevent="handleRegister">
           <label for="newEmail">Email</label>
@@ -38,7 +35,6 @@
           <label for="confirmPassword">Confirm Password</label>
           <input type="password" v-model="confirmPassword" required />
 
-          <!-- Terms and Conditions 체크박스 -->
           <div class="terms">
             <input type="checkbox" id="terms" v-model="termsAccepted" />
             <label for="terms">I have read and agree to the Terms and Conditions</label>
@@ -47,7 +43,7 @@
           <button type="submit" :disabled="!termsAccepted">Register</button>
           <p v-if="passwordError" class="error">{{ passwordError }}</p>
         </form>
-        <p class="switch" @click="flipCard">Already have an account? Sign in</p>
+        <p class="switch" @click="startSwapAnimation">Already have an account? Sign in</p>
       </div>
     </div>
   </div>
@@ -58,27 +54,52 @@ export default {
   data() {
     return {
       isFlipped: false,
+      isAnimating: false,
       email: "",
       password: "",
-      rememberMe: false, // Remember Me 체크박스 상태
+      rememberMe: false,
       newEmail: "",
       newPassword: "",
       confirmPassword: "",
-      termsAccepted: false, // Terms and Conditions 체크박스 상태
+      termsAccepted: false,
       passwordError: "",
     };
   },
+  mounted() {
+    // 페이지 로드 시, 로컬 스토리지에서 사용자 정보 불러오기
+    const savedEmail = localStorage.getItem("email");
+    const savedPassword = localStorage.getItem("password");
+    const rememberMe = localStorage.getItem("rememberMe") === "true";
+    if (rememberMe && savedEmail && savedPassword) {
+      this.email = savedEmail;
+      this.password = savedPassword;
+      this.rememberMe = rememberMe;
+      this.autoLogin();
+    }
+  },
   methods: {
-    flipCard() {
-      this.isFlipped = !this.isFlipped;
+    startSwapAnimation() {
+      this.isAnimating = true;
+      setTimeout(() => {
+        this.isFlipped = !this.isFlipped;
+        this.isAnimating = false;
+      }, 2000);
     },
     handleLogin() {
       if (this.email && this.password) {
         alert("Login successful!");
         if (this.rememberMe) {
-          // Remember Me가 체크된 경우 처리 로직 추가 (예: 로컬 저장소에 사용자 정보 저장)
+          // 로컬 스토리지에 이메일, 비밀번호 저장
+          localStorage.setItem("email", this.email);
+          localStorage.setItem("password", this.password);
+          localStorage.setItem("rememberMe", this.rememberMe);
+        } else {
+          // Remember Me 체크가 해제된 경우 정보 삭제
+          localStorage.removeItem("email");
+          localStorage.removeItem("password");
+          localStorage.removeItem("rememberMe");
         }
-        this.$router.push("/home");
+        this.$router.push("/home"); // 로그인 성공 후 홈으로 이동
       } else {
         alert("Login failed. Please try again.");
       }
@@ -99,15 +120,18 @@ export default {
       }
     },
     handleForgotPassword() {
-      // 비밀번호 찾기 페이지로 이동하거나 모달 표시 등
       alert("Redirecting to Forgot Password page...");
+    },
+    autoLogin() {
+      // 자동 로그인 로직 (이메일과 비밀번호가 유효하다고 가정)
+      this.$router.push("/home");
     },
   },
 };
 </script>
 
 <style scoped>
-/* 기존 스타일 유지 */
+/* 기본 스타일 */
 .wrapper {
   height: 460px;
   width: 320px;
@@ -119,39 +143,47 @@ export default {
   backdrop-filter: blur(5px);
 }
 
-.card {
+.card-container {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.6s ease-in-out;
 }
 
-.card.flipped {
-  transform: rotateY(180deg);
-}
-
-.content {
+.card {
   position: absolute;
   width: 100%;
   height: 100%;
   padding: 40px 20px;
   text-align: center;
-  background: rgba(212, 0, 255, 0.26);
+  background: #e50914;
   color: #fff;
   border-radius: 10px;
-  transition: all 0.5s ease-in-out;
-  backface-visibility: hidden;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: transform 2s ease, opacity 2s ease;
+  backface-visibility: hidden;
 }
 
-.front {
-  background: #e50914;
+.hidden {
+  opacity: 0;
 }
 
-.back {
-  background: #e50914;
-  transform: rotateY(180deg);
+.card.animated {
+  animation: swapEffect 2s ease forwards;
+}
+
+@keyframes swapEffect {
+  0% {
+    transform: translateX(0) rotateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-100%) rotateY(-180deg) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0) rotateY(-360deg);
+    opacity: 1;
+  }
 }
 
 h2 {
