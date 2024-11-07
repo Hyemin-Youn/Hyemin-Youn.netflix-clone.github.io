@@ -1,22 +1,25 @@
+# .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main  # main 브랜치에 푸시가 있을 때 트리거
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '16' # 프로젝트에 맞는 Node.js 버전 사용
 
       - name: Install dependencies
         run: npm install
@@ -28,4 +31,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
+          publish_dir: ./dist  # Vue 프로젝트에서 빌드된 파일 위치
+          publish_branch: gh-pages
+          cname: ''  # 커스텀 도메인이 있으면 여기에 추가
